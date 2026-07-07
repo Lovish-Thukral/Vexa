@@ -1,22 +1,36 @@
-import {Linking, Platform} from 'react-native';
+// import { Platform, Linking, Alert } from "react-native";
+// import RNFS from 'react-native-fs'; // Or your preferred file access library
 
-export const RequestStoragePermission = async (): Promise<boolean> => {
-  if (Platform.OS !== 'android') {
-    console.warn('Storage permission is only required on Android.');
-    return true;
-  }
+// export const RequestStoragePermission = async () => {
+//   if (Platform.OS !== 'android') return true;
 
-  // MANAGE_EXTERNAL_STORAGE / All Files Access only exists on API 30+ (Android 11+)
-  // Still valid through API 36 (Android 16) — Google hasn't removed it.
-  if (Platform.Version < 30) {
-    return true;
-  }
-
-  try {
-    await Linking.sendIntent('android.settings.MANAGE_APP_ALL_FILES_ACCESS_PERMISSION');
-    return true;
-  } catch (err) {
-    console.warn('Error requesting storage permission:', err);
-    return false;
-  }
-};
+//   // For Android 11 (API level 30) and above
+//   if (Platform.Version >= 30) {
+//     const hasAccess = await RNFS.exists('/sdcard'); // Fast native check trick
+    
+//     if (!hasAccess) {
+//       Alert.alert(
+//         "Permission Required",
+//         "This app needs management access to all files to operate properly. Please enable it in the system settings.",
+//         [
+//           { text: "Cancel", style: "cancel" },
+//           { 
+//             text: "Open Settings", 
+//             onPress: () => Linking.openSettings() 
+//           }
+//         ]
+//       );
+//       return false;
+//     }
+//     return true;
+//   } 
+  
+//   // Fallback for Android 10 and below
+//   // else {
+//   //   const { PermissionsAndroid } = require('react-native');
+//   //   const granted = await PermissionsAndroid.request(
+//   //     PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+//   //   );
+//   //   return granted === PermissionsAndroid.RESULTS.GRANTED;
+//   }
+// // };
